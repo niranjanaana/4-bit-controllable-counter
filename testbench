@@ -1,0 +1,19 @@
+module tb;
+    reg clk, rst, en, up;
+    wire [3:0] count;
+
+    counter_4bit uut (.clk(clk), .rst(rst), .en(en), .up(up), .count(count));
+
+    always #5 clk = ~clk;
+
+    initial begin
+        clk = 0; rst = 1; en = 0; up = 1;
+        $monitor("t=%0t rst=%b en=%b up=%b count=%d", $time, rst, en, up, count);
+
+        #10 rst = 0; en = 1;       
+        #50 up = 0;                
+        #50 en = 0;                
+        #20 en = 1; up = 1;        
+        #50 $finish;
+    end
+endmodule
